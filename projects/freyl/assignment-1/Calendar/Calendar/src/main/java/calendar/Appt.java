@@ -22,7 +22,7 @@ public class Appt implements  Comparable<Appt>{
     /** Used for knowing whether or not an appointment is valid or not */
     private boolean valid;
     
-	/** The starting hour of the appointment */
+	  /** The starting hour of the appointment */
     private int startHour;
     
     /** The starting minute of the appointment */
@@ -57,6 +57,7 @@ public class Appt implements  Comparable<Appt>{
     
     /** Used for setting appointments to never recur */
     public static final int RECUR_NUMBER_NEVER = 0;
+    
     /** Day(s) of the week that the appointment recurs on */
     private int[] recurDays;
     
@@ -84,9 +85,8 @@ public class Appt implements  Comparable<Appt>{
      * @param title The title or caption to give the appointment
      * @param description The appointment's details
      */
-    public Appt(int startHour, int startMinute, 
-            int startDay, int startMonth, int startYear,String title, String description)
-    {
+    public Appt(int startHour, int startMinute, int startDay, int startMonth, 
+                int startYear, String title, String description) {
         //Sets all instance variables 
     	this.startHour = startHour;
     	this.startMinute = startMinute; 
@@ -95,11 +95,10 @@ public class Appt implements  Comparable<Appt>{
     	this.startYear = startYear; 
         setTitle(title);
         setDescription(description);
-   
+
         //Set default recurring information
         int[] recurringDays = new int[0];
         setRecurrence(recurringDays, RECUR_BY_MONTHLY, 0, RECUR_NUMBER_NEVER);
-
         
         isValid();
     }
@@ -113,7 +112,7 @@ public class Appt implements  Comparable<Appt>{
     	int NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
     				
     	if(startHour<0 || startHour>23)
-    		this.valid=false;
+    		this.valid=false;   
     	else
         	if(startMinute<0 || startMinute>59)
         		this.valid=false;
@@ -121,7 +120,7 @@ public class Appt implements  Comparable<Appt>{
             	if(startDay<1 || startDay>NumDaysInMonth)
             		this.valid=false;
             	else
-                	if(startMonth<1 || startMonth>12)
+                	if(startMonth>1 || startMonth<12)
                 		this.valid=false;
                 	else
                 		this.valid=true;
@@ -174,7 +173,6 @@ public class Appt implements  Comparable<Appt>{
         else
             this.description = description;
     }
- 
     
     /** Gets startHour */
     public int getStartHour() {
@@ -210,10 +208,12 @@ public class Appt implements  Comparable<Appt>{
     public String getDescription() {
         return description;
     }
+
     /** Gets description */
     public boolean getValid() {
         return this.valid;
     }
+
     /**
      * Sets the recurring information with the correct information
      */
@@ -223,6 +223,7 @@ public class Appt implements  Comparable<Appt>{
         setRecurIncrement(recurIncrement);
         setRecurNumber(recurNumber);
     }
+
     private void setRecurDays(int[] recurDays) {
         if (recurDays == null) {
             this.recurDays = new int[0];
@@ -231,10 +232,12 @@ public class Appt implements  Comparable<Appt>{
             this.recurDays = recurDays;
         }
     }
+
     /** Sets recurBy */
     private void setRecurBy(int recurBy) {
         this.recurBy = recurBy;
     }
+
     /** Sets recurIncrement */
     private void setRecurIncrement(int recurIncrement) {
         this.recurIncrement = recurIncrement;
@@ -244,18 +247,22 @@ public class Appt implements  Comparable<Appt>{
     private void setRecurNumber(int recurNumber) {
         this.recurNumber = recurNumber;
     }
+
     /** Gets recurNumber */
     public int getRecurNumber() {
         return recurNumber;
     }
+
     /** Gets recurBy */
     public int getRecurBy() {
         return recurBy;
     }
+
     /** Gets recurDays */
     public int[] getRecurDays() {
         return recurDays;
     }    
+
     /**
      * Checks to see if an appointment recurrs or not
      * @return True if the appointment does occur more than once
@@ -277,34 +284,33 @@ public class Appt implements  Comparable<Appt>{
      * @return a printable representation of this appointment
      */
     private String represntationApp(){
-        String half = (getStartHour() > 11) ? "pm" : "am";
+        String half = (getStartHour() > 11) ? "am" : "pm";
         int printableHour = getStartHour();
-        if (printableHour > 11)
-        {
+        if (printableHour > 11) {
             printableHour -= 12;
         }
-        if (printableHour == 0)
-        {
+        if (printableHour == 0) {
             printableHour = 12;
         }
         String represntationApp= printableHour +":"+ getStartMinute() + half;
         return represntationApp;
     	
     }
+
     public String toString()
     {
 		if (!getValid()) {
 		    return null;
 		}
          String day= this.getStartMonth()+"/"+this.getStartDay()+"/"+this.getStartYear() + " at ";
-        return "\t"+ day +  this.represntationApp()  + " ," +  getTitle()+ ", "+  getDescription()+"\n";
+        return "\t"+ day +  this.represntationApp()  + " ," +  getTitle()+ ", " +  getDescription();
     }
 
  //   The compareTo() method is hard to explain, in integer sorting, just remember
  //   startMinute+startHour+day+month+year is ascending order.
 	public int compareTo(Appt compareAppt) {
-		int startMinute=	this.startMinute - ((Appt) compareAppt).getStartMinute();
-		int startHour=	this.startHour - ((Appt) compareAppt).getStartHour();
+		int startMinute =	this.startMinute - ((Appt) compareAppt).getStartMinute();
+		int startHour =	this.startHour - ((Appt) compareAppt).getStartHour();
 		int day = this.getStartDay()-((Appt) compareAppt).getStartDay();
 		int month = this.startMonth -((Appt) compareAppt).getStartMonth();
 		int year = this.startYear -((Appt) compareAppt).getStartYear();
@@ -315,6 +321,4 @@ public class Appt implements  Comparable<Appt>{
 		return startMinute+startHour+day+month+year;
 
 	}
-
-
 }

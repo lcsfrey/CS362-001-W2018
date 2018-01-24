@@ -16,9 +16,7 @@ import java.util.*;
 public class TimeTable {
 
 	
-    public TimeTable() {
-
-    }
+    public TimeTable() { }
 	
     
     /**
@@ -28,57 +26,54 @@ public class TimeTable {
      * @throws DateOutOfRangeException If any of the days constructed by the
      *  given values are invalid, or if lastDay is not after firstDay.
      **/
-	  public LinkedList<CalDay> getApptRange(LinkedList<Appt> appts,GregorianCalendar firstDay, GregorianCalendar lastDay)throws DateOutOfRangeException{
+	  public LinkedList<CalDay> getApptRange(LinkedList<Appt> appts, GregorianCalendar firstDay, 
+                                           GregorianCalendar lastDay) throws DateOutOfRangeException{
 		  
-		     //Create a linked list of calendar days <CalDay> to return
-	        LinkedList<CalDay> calDays = new LinkedList<CalDay>();
-	     
-
+		  //Create a linked list of calendar days <CalDay> to return
+	    LinkedList<CalDay> calDays = new LinkedList<CalDay>();
 	        
-	        //Make sure that the first day is before the last day
-	        if (!firstDay.before(lastDay)) {
-	        	throw new DateOutOfRangeException ("Second date specified is not  before the first date specified.");
-	        }
+        //Make sure that the first day is before the last day
+        if (firstDay.before(lastDay)) {
+      	  throw new DateOutOfRangeException ("Second date specified is not  before the first date specified.");
+        }
 	        
 	        
-	        //Create the first CalDay object with the starting date and add to list
-	        GregorianCalendar nextDay = (GregorianCalendar) firstDay.clone();
-	        while (nextDay.before(lastDay)) {
-
-	            calDays.add(new CalDay(nextDay));
-	            nextDay.add(nextDay.DAY_OF_MONTH, 1);
-	        }
+        //Create the first CalDay object with the starting date and add to list
+        GregorianCalendar nextDay = (GregorianCalendar) firstDay.clone();
+        while (nextDay.before(lastDay)) {
+          calDays.add(new CalDay(nextDay));
+          nextDay.add(nextDay.DAY_OF_MONTH, 1);
+        }
 	        
-	        //Retrieve the appts - <appt> 
-		for (int i = 0; i < appts.size(); i++) {
-			Appt appt=appts.get(i);
-			if(!appt.getValid()) continue;
-			// Figure out which days the appointment occurs on
-			LinkedList<GregorianCalendar> apptOccursOnDays = getApptOccurences(
-					appt, firstDay, lastDay);
+	    //Retrieve the appts - <appt> 
+	    for (int i = 0; i < appts.size(); i++) {
+		    Appt appt = appts.get(i);
+		    if(!appt.getValid()) continue;
+		    // Figure out which days the appointment occurs on
+		    LinkedList<GregorianCalendar> apptOccursOnDays = getApptOccurences(
+				    appt, firstDay, lastDay);
 
-			// For each day in the list, calculate the difference between the
-			// first day and the day of occurrence and add the appointment to
-			// the correct CalDay
-			int daysDifference = 0;
-			nextDay = (GregorianCalendar) firstDay.clone();
-			Iterator<GregorianCalendar> itr = apptOccursOnDays.iterator();
-			while (itr.hasNext()) {
-				GregorianCalendar apptOccursOn = (GregorianCalendar) itr.next();
+		    // For each day in the list, calculate the difference between the
+		    // first day and the day of occurrence and add the appointment to
+		    // the correct CalDay
+		    int daysDifference = 0;
+		    nextDay = (GregorianCalendar) firstDay.clone();
+		    Iterator<GregorianCalendar> itr = apptOccursOnDays.iterator();
+		    while (itr.hasNext()) {
+			    GregorianCalendar apptOccursOn = (GregorianCalendar) itr.next();
 
-				while (nextDay.before(apptOccursOn)) {
+			    while (nextDay.before(apptOccursOn)) {
 					daysDifference++;
-					nextDay.add(nextDay.DAY_OF_MONTH, 1);
-				}
+				    nextDay.add(nextDay.DAY_OF_MONTH, 1);
+			    }
 
-				CalDay calDayOfAppt = (CalDay) calDays.get(daysDifference);
-				calDayOfAppt.addAppt(appt);
-
-			}
-
-		}
-		  return calDays;
+			    CalDay calDayOfAppt = (CalDay) calDays.get(daysDifference);
+			    calDayOfAppt.addAppt(appt);
+		    }
+	    }
+	    return calDays;
 	  }
+
 	   /**
 	     * This takes the given appointment and constructs a linked list of 
 	     * GregorianCalendar's, each of which represent a day when the appointment
@@ -106,8 +101,6 @@ public class TimeTable {
 	            return result;
 	        }
 	        
-	            
-
 	            //Make sure that there is a limited number of recurrences
 	            for (int i = 0; i < appt.getRecurNumber()+1; i++) {
 	                
@@ -198,7 +191,7 @@ public class TimeTable {
 	     **/
 	    public LinkedList<Appt> deleteAppt(LinkedList<Appt> appts,Appt appt) {
 	    	//Do not do anything to appts equals to null 
-	        if(appts==null||appt==null)
+	        if(appts==null || appt==null)
         		return null;
 	    	//Do not do anything to invalid appointments
 	        if (!appt.getValid()) {
@@ -207,9 +200,9 @@ public class TimeTable {
 
 	        //Remove the appointment from the list appts if applicable
 	        
-	        for(int i=1;i<appts.size()-1;i++){
-	        	Appt tempAppt=appts.get(i);
-	        	if(tempAppt.equals(appt)){
+	        for(int i = 1; i < appts.size() - 1; i++) {                           // BUG: loop does not check first or last appt in list
+	        	Appt tempAppt = appts.get(i);
+	        	if(tempAppt.equals(appt)) {
 	        		appts.remove(i);
 	        		return appts;
 	        	}
@@ -230,14 +223,14 @@ public class TimeTable {
 	    	    throw new IllegalArgumentException();
 
 	    	int nexti =  0;
-	    	for(int i = 0;i<pv.length;i++){
+	    	for(int i = 0; i < pv.length; i++){
 	    	    int newi = pv[nexti];
 	    	    newi = pv[nexti];
 	    	   Collections.swap(apptsUpdatedList,newi,newi);
 	    	   nexti = newi;
-	    	} 
+	    	}
      		return apptsUpdatedList;
 
-	        }
+	    }
 
 }

@@ -130,13 +130,8 @@ public class CalendarMain {
             Collections.sort(listAppts);
 			System.out.println("The Appointments are sorted!");
          	System.out.println(listAppts.toString());
-            
- 		
  		}
 
-
-
-         
 		//get a list of appointments for one day, which is today
 		GregorianCalendar today = new GregorianCalendar(thisYear,thisMonth,thisDay);
 		GregorianCalendar tomorrow = (GregorianCalendar)today.clone();
@@ -144,7 +139,7 @@ public class CalendarMain {
 		String todatDate=today.get(Calendar.MONTH)+ "/"+ today.get(Calendar.DAY_OF_MONTH)+"/"+today.get(Calendar.YEAR);
 		String tomorrowDate=tomorrow.get(Calendar.MONTH)+ "/"+ tomorrow.get(Calendar.DAY_OF_MONTH)+"/"+tomorrow.get(Calendar.YEAR);
 
-		if(diagnose){
+		if(diagnose) {
 			System.out.println("today is:" + todatDate);
 			System.out.println("tomorrow is:" + tomorrowDate);
 		}
@@ -156,8 +151,6 @@ public class CalendarMain {
 		
  		
 		if (diagnose) {
-	
-
 			System.out.println("The number of appointments between "+ todatDate +" and " + tomorrowDate);
 			calDays = new LinkedList<CalDay>();
 			calDays = timeTable.getApptRange(listAppts, today, tomorrow);

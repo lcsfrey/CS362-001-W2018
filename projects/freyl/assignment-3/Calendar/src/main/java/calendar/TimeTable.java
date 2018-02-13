@@ -46,7 +46,7 @@ public class TimeTable {
         }
 	        
 	    //Retrieve the appts - <appt> 
-	    for (int i = 1; i < appts.size(); i++) { // BUG : skips first appt in appts
+	    for (int i = 0; i < appts.size(); i++) { // BUG : skips first appt in appts
 		    Appt appt = appts.get(i);
 		    if(!appt.getValid()) continue;
 		    // Figure out which days the appointment occurs on
@@ -87,7 +87,7 @@ public class TimeTable {
 	        
 	        //Make sure that the firstDay is before the last day
 	        if (!firstDay.before(lastDay)) {
-	            return result;
+	            return result; // Will never reach this line because exception is thrown beforehand
 	        }
 	        
 	        //Get the first recurrence taken care of
@@ -100,27 +100,27 @@ public class TimeTable {
 	        if (!occurrenceDay.before(lastDay)) {
 	            return result;
 	        }
-	        
-	            //Make sure that there is a limited number of recurrences
-	            for (int i = 0; i < appt.getRecurNumber()+1; i++) {
-	                
-	                //Add the day of occurrence to the list if it is after the first day
-	                if (!occurrenceDay.before(firstDay)) {
-	                    result.add(occurrenceDay);
-	                }
-	                
-	                //Calculate the next recurrence day
-	                occurrenceDay = getNextApptOccurrence(appt, occurrenceDay);
-	                if (occurrenceDay == null) {
-	                    break;
-	                }
-	                            
-	                //Keep cycling while the occurence day is in range
-	                if (!occurrenceDay.before(lastDay)) {
-	                    break;
-	                }
-	            }        
-	        return result;
+        
+            //Make sure that there is a limited number of recurrences
+            for (int i = 0; i < appt.getRecurNumber()+1; i++) {
+                
+                //Add the day of occurrence to the list if it is after the first day
+                if (!occurrenceDay.before(firstDay)) {
+                    result.add(occurrenceDay);
+                }
+                
+                //Calculate the next recurrence day
+                occurrenceDay = getNextApptOccurrence(appt, occurrenceDay);
+                if (occurrenceDay == null) {
+                    break;
+                }
+                            
+                //Keep cycling while the occurence day is in range
+                if (!occurrenceDay.before(lastDay)) {
+                    break;
+                }
+            }        
+        return result;
 	    }
 	    /**
 	     * Calculates the next recurring day in the given appointment. If the 
@@ -130,7 +130,7 @@ public class TimeTable {
 	    private static GregorianCalendar getNextApptOccurrence(Appt appt, 
 	            GregorianCalendar day) {
 	        //If the appointment does not recur then return null
-	        if (!appt.isRecurring()) {
+	        if (appt.isRecurring()) { // BUG : should have ! before conditional
 	            return null;
 	        }	        
 	        //Leave the original day untouched.
@@ -152,7 +152,7 @@ public class TimeTable {
 	                
 	                //The user did specify weekly recurrence, so increment the
 	                //day until it falls on a weekday the user specified
-	                for (int k = 0; k < 7; k++) {
+	                for (int k = 0; k <= 7; k++) {
 	                    nextDay.add(nextDay.DAY_OF_MONTH, 1);
 	                    int newDayOfWeek = nextDay.get(nextDay.DAY_OF_WEEK);
 	                
@@ -200,7 +200,7 @@ public class TimeTable {
 
 	        //Remove the appointment from the list appts if applicable
 	        
-	        for(int i = 1; i < appts.size() - 1; i++) { // BUG: loop does not check first or last appt in list
+	        for(int i = 1; i < appts.size()-1; i++) { // BUG: loop does not check first or last appt in list
 	        	Appt tempAppt = appts.get(i);
 	        	if(tempAppt.equals(appt)) {
 	        		appts.remove(i);
@@ -226,11 +226,10 @@ public class TimeTable {
 	    	for(int i = 0; i < pv.length; i++){
 	    	    int newi = pv[nexti];
 	    	    newi = pv[nexti];
-	    	   Collections.swap(apptsUpdatedList,newi,newi);
+	    	   Collections.swap(apptsUpdatedList,newi,newi); // BUG: indeces being swapped are the same
 	    	   nexti = newi;
 	    	}
      		return apptsUpdatedList;
-
 	    }
 
 }

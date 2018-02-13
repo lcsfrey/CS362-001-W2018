@@ -156,6 +156,58 @@ public class ApptTest {
 	 }
 	 
 	 @Test
+	  public void testInvalidSetMethods()  throws Throwable  {
+		 int startHour=21;
+		 int startMinute=30;
+		 int startDay=15;
+		 int startMonth=01;
+		 int startYear=2018;
+		 String title="test set method";
+		 String description="This is a test";
+		 //Construct a new Appointment object with the initial data	 
+		 Appt appt = new Appt(startHour, startMinute, startDay, startMonth,
+		                      startYear, title, description);
+		 
+		 appt.setStartMinute(-1);
+		 assertEquals(false, appt.getValid());
+		 appt.setStartMinute(0);
+		 assertEquals(true, appt.getValid());
+		 appt.setStartMinute(60);
+		 assertEquals(false, appt.getValid());
+		 
+		 appt = new Appt(startHour, startMinute, startDay, startMonth,
+		                      startYear, title, description);
+		 
+		 appt.setStartHour(-1);
+		 assertEquals(false, appt.getValid());
+		 appt.setStartHour(0);
+		 assertEquals(true, appt.getValid());
+		 appt.setStartHour(24);
+		 assertEquals(false, appt.getValid());
+		 
+         appt = new Appt(startHour, startMinute, startDay, startMonth,
+		                      startYear, title, description);
+		 
+		 appt.setStartDay(0);
+		 assertEquals(false, appt.getValid());
+		 appt.setStartDay(1);
+		 assertEquals(true, appt.getValid());
+		 appt.setStartDay(32);
+		 assertEquals(false, appt.getValid());
+		 appt.setStartDay(1);
+          
+		 //appt.setStartMonth(0);
+		 //assertEquals(true, appt.getValid());
+		 appt.setStartMonth(1);
+		 assertEquals(true, appt.getValid());
+		 //appt.setStartMonth(13);
+		 //assertEquals(false, appt.getValid());
+          
+         appt = new Appt(startHour, startMinute, startDay, startMonth,
+		                      startYear, title, description);
+	 }
+	 
+	 @Test
 	  public void testRecurMethods()  throws Throwable  {
 		 int startHour=21;
 		 int startMinute=30;
@@ -167,6 +219,7 @@ public class ApptTest {
 		 //Construct a new Appointment object with the initial data	 
 		 Appt appt = new Appt(startHour, startMinute, startDay, startMonth,
 		                      startYear, title, description);
+		 assertEquals(Appt.RECUR_BY_MONTHLY, appt.getRecurBy());
 		 
 		 assertEquals(false, appt.isRecurring());
 		 
@@ -182,6 +235,7 @@ public class ApptTest {
 		 int[] recurDays = {0, 1, 2};
 		 appt.setRecurrence(recurDays, recurBy, recurIncrement, recurNumber);
 		 assertEquals(3, appt.getRecurDays().length);
+		 assertTrue(appt.isRecurring());
 	 }
 	 
 	 @Test
@@ -197,7 +251,55 @@ public class ApptTest {
 		 Appt appt = new Appt(startHour, startMinute, startDay, startMonth,
 		                      startYear, title, description);
 		 //assertEquals("\t1/15/2018 at 9:30pm ,test set method, This is a test", appt.toString());
+		 
+		 Appt appt1 = new Appt(0, startMinute, startDay, startMonth,
+                 startYear, title, description);
+		 //assertEquals("\t1/15/2018 at 12:30am ,test set method, This is a test", appt1.toString());
+		 
+		 Appt appt2 = new Appt(12, startMinute, startDay, startMonth,
+                 startYear, title, description);
+		//assertEquals("\t1/15/2018 at 12:30pm ,test set method, This is a test", appt1.toString());
+		 
+		 Appt appt3 = new Appt(3, startMinute, startDay, startMonth,
+                 startYear, title, description);
+		//assertEquals("\t1/15/2018 at 3:30am ,test set method, This is a test", appt1.toString());
 	 }
+	 
+	 @Test
+	  public void testInvalidToString()  throws Throwable  {
+		 int startHour=-1;
+		 int startMinute=30;
+		 int startDay=15;
+		 int startMonth=1;
+		 int startYear=2018;
+		 String title="test set method";
+		 String description="This is a test";
+		 //Construct a new Appointment object with the initial data	 
+		 Appt appt = new Appt(startHour, startMinute, startDay, startMonth,
+		                      startYear, title, description);
+		 assertEquals(null, appt.toString());
+	 }
+	 
+	 @Test
+	  public void testCompareTo()  throws Throwable  {
+		 int startHour=0;
+		 int startMinute=0;
+		 int startDay=1;
+		 int startMonth=1;
+		 int startYear=2018;
+		 String title="test set method";
+		 String description="This is a test";
+		 //Construct a new Appointment object with the initial data	 
+		 Appt appt = new Appt(startHour, startMinute, startDay, startMonth,
+		                      startYear, title, description);
+		 assertEquals(0, appt.compareTo(appt));
+		 
+		 Appt appt1 = new Appt(startHour+1, startMinute+3, startDay+7, startMonth+11,
+                 startYear+13, title, description);
+		 assertEquals(-35, appt.compareTo(appt1));
+		 assertEquals(35, appt1.compareTo(appt));
+	 }
+	 
 	 
 //add more unit tests as you needed
 	

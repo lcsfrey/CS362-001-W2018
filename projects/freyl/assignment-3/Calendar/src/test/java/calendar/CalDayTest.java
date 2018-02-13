@@ -22,6 +22,9 @@ public class CalDayTest {
 		 GregorianCalendar gregCal = new GregorianCalendar(2018, 11, 25);
 		 CalDay calday = new CalDay(gregCal);
 		 assertTrue(calday.isValid());
+		 
+		 calday = new CalDay();
+		 assertFalse(calday.isValid());
 	 }
 	 
 	 @Test
@@ -68,11 +71,22 @@ public class CalDayTest {
 		 calday.addAppt(appt2);
 		 assertEquals(3, calday.getSizeAppts());
 		 
+		 Appt appt3 = new Appt(startHour, startMinute+1, startDay, startMonth,
+                 startYear, title, description);
+		 calday.addAppt(appt3);
+		 
 		 Appt invalid_appt = new Appt(-1, startMinute, startDay, startMonth,
                  startYear, title, description);
 
 		 calday.addAppt(invalid_appt);
-		 assertEquals(3, calday.getSizeAppts());
+		 assertEquals(4, calday.getSizeAppts());
+		 
+		 Iterator<Appt> it = (Iterator<Appt>) calday.iterator();
+		 assertEquals(appt1, it.next());
+		 assertEquals(appt, it.next());
+		 assertEquals(appt3, it.next());
+		 assertEquals(appt2, it.next());
+		 
 	 }
 	 
 	 @Test

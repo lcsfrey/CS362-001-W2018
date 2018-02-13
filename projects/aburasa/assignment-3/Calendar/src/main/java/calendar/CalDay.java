@@ -5,7 +5,10 @@ package calendar;
  *
  */
 
+
+
 import java.util.*;
+
 
 
 /**
@@ -73,6 +76,7 @@ public class CalDay {
 				//Put the appointment in the correct order - finish this
 				if (((Appt)getAppts().get(i)).getStartHour() >
 										appt.getStartHour()) {
+					
 					getAppts().add(i, appt);
 					return;
 				}
@@ -108,9 +112,9 @@ public class CalDay {
 	/** Sets appts */
 	private void setAppts(LinkedList<Appt> appts) {
 		if(appts!=null)
-			this.appts = appts;
+				this.appts = appts;
 		
-		if(appts!=null && appts.size()==0)
+		if(appts!=null&&appts.size()==0)
 			this.appts = appts;
 	}
 	
@@ -175,9 +179,11 @@ public class CalDay {
 		         
 		         sb.append(element + " ");
 		      }
+		  
 //			sb.append(this.appts);
 			sb.append("\n");
 		}
        	 return sb.toString();
+
 	}
 }

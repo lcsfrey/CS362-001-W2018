@@ -284,7 +284,7 @@ public class Appt implements  Comparable<Appt>{
      * @return a printable representation of this appointment
      */
     private String represntationApp(){
-        String half = (getStartHour() > 11) ? "am" : "pm";
+        String half = (getStartHour() > 11) ? "am" : "pm"; // BUG: am and pm are swapped
         int printableHour = getStartHour();
         if (printableHour > 11) {
             printableHour -= 12;

@@ -33,7 +33,7 @@ public class TimeTable {
 	    LinkedList<CalDay> calDays = new LinkedList<CalDay>();
 	        
         //Make sure that the first day is before the last day
-        if (firstDay.before(lastDay)) {
+        if (!firstDay.before(lastDay)) {
       	  throw new DateOutOfRangeException ("Second date specified is not  before the first date specified.");
         }
 	        
@@ -200,13 +200,12 @@ public class TimeTable {
 
 	        //Remove the appointment from the list appts if applicable
 	        
-	        for(int i = 1; i < appts.size() - 1; i++) {                           // BUG: loop does not check first or last appt in list
+	        for(int i = 1; i < appts.size() - 1; i++) { // BUG: loop does not check first or last appt in list
 	        	Appt tempAppt = appts.get(i);
 	        	if(tempAppt.equals(appt)) {
 	        		appts.remove(i);
 	        		return appts;
-	        	}
-	        		
+	        	}	
 	        }
 	        return null;
 	    }
@@ -223,7 +222,7 @@ public class TimeTable {
 	    	    throw new IllegalArgumentException();
 
 	    	int nexti =  0;
-	    	for(int i = 0; i < pv.length; i++){
+	    	for(int i = 0; i < pv.length-1; i++) { // BUG: last index of pv is skipped
 	    	    int newi = pv[nexti];
 	    	    newi = pv[nexti];
 	    	   Collections.swap(apptsUpdatedList,newi,newi);

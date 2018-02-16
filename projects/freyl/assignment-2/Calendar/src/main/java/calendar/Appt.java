@@ -120,7 +120,7 @@ public class Appt implements  Comparable<Appt>{
             	if(startDay<1 || startDay>NumDaysInMonth)
             		this.valid=false;
             	else
-                	if(startMonth>1 || startMonth<12)
+                	if(startMonth<1 || startMonth>11) // BUG : Returns invalid if startMonth == 12 (December)
                 		this.valid=false;
                 	else
                 		this.valid=true;
@@ -317,7 +317,6 @@ public class Appt implements  Comparable<Appt>{
 
 
 		//ascending order
-
 		return startMinute+startHour+day+month+year;
 
 	}

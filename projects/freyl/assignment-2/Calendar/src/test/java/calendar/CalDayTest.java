@@ -5,7 +5,7 @@ package calendar;
  */
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
+import java.util.*;
 
 import org.junit.Test;
 
@@ -57,10 +57,41 @@ public class CalDayTest {
 		 
 		 calday.addAppt(appt);
 		 assertEquals(1, calday.getSizeAppts());	 
+		 
+		 Appt appt1 = new Appt(startHour-1, startMinute, startDay, startMonth,
+                 startYear, title, description);
+
+		 calday.addAppt(appt1);
+		 assertEquals(2, calday.getSizeAppts());
+		 
+		 Appt appt2 = new Appt(startHour+1, startMinute, startDay, startMonth,
+                 startYear, title, description);
+
+		 calday.addAppt(appt2);
+		 assertEquals(3, calday.getSizeAppts());
+		 
+		 Appt appt3 = new Appt(startHour, startMinute+1, startDay, startMonth,
+                 startYear, title, description);
+		 calday.addAppt(appt3);
+		 
+		 Appt invalid_appt = new Appt(-1, startMinute, startDay, startMonth,
+                 startYear, title, description);
+
+		 calday.addAppt(invalid_appt);
+		 assertEquals(4, calday.getSizeAppts());
+		 
+		 Iterator<Appt> it = (Iterator<Appt>) calday.iterator();
+		 assertEquals(appt1, it.next());
+		 assertEquals(appt, it.next());
+		 assertEquals(appt3, it.next());
+		 assertEquals(appt2, it.next());
 	 }
 	 
 	 @Test
 	 public void testToString()  throws Throwable  {
+		 CalDay inv_calday = new CalDay();
+		 assertEquals("", inv_calday.toString());	
+		 
 		 GregorianCalendar gregCal = new GregorianCalendar(2018, 11, 25);
 		 CalDay calday = new CalDay(gregCal);
 		 
@@ -79,6 +110,18 @@ public class CalDayTest {
 		 assertEquals("\t --- 11/25/2018 --- \n"
 		 		    + " --- -------- Appointments ------------ --- \n" 
 				    + appt.toString() + " \n" , calday.toString());	 
+	 }
+	 
+	 @Test
+	 public void testIterator()  throws Throwable  {
+		 GregorianCalendar gregCal = new GregorianCalendar(2018, 11, 25);
+		 CalDay calday = new CalDay(gregCal);
+		 Iterator<Appt> it = (Iterator<Appt>) calday.iterator();
+		 assertNotNull(it);
+		 
+		 calday = new CalDay();
+		 it = (Iterator<Appt>) calday.iterator();
+		 assertNull(it);
 	 }
 //add more unit tests as you needed	
 }

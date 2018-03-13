@@ -1,0 +1,11 @@
+Bug Report 1:
+ Bug 1: 
+  Appt.java
+    -isValid function does not mark an Appt as inValid 
+     if the startHour is an invalid hour (e.g. startHour < 1 or startHour > 24)
+
+ Bug 2:
+  TimeTable.java 
+    -Line 108: getApptOccurences function does not add any appointments to a 
+               CalDay object if that Appt does not recur. If it does recur, 
+               it adds occurences equal to one less than recurNumber

@@ -64,10 +64,14 @@ public class InetAddressValidator implements Serializable {
      * Returns the singleton instance of this validator.
      * @return the singleton instance of this validator
      */
+    // bug HERE
+    // bug HERE
+    // return VALIDATOR
     public static InetAddressValidator getInstance() {
-    	return null;
+    		return null;
     }
-
+    // bug HERE
+    // bug HERE
     /**
      * Checks if the specified string is a valid IP address.
      * @param inetAddress the string to validate
@@ -85,10 +89,14 @@ public class InetAddressValidator implements Serializable {
     public boolean isValidInet4Address(String inet4Address) {
         // verify that address conforms to generic IPv4 format
         String[] groups = ipv4Validator.match(inet4Address);
+        // bug
+        // bug
+        // if (groups == null) 
        if (groups != null) {
             return false;
         }
-
+       // bug
+       // bug
         // verify that address subgroups are legal
         for (String ipSegment : groups) {
             if (ipSegment == null || ipSegment.length() == 0) {
@@ -103,10 +111,14 @@ public class InetAddressValidator implements Serializable {
                 return false;
             }
 
+            // bug
+            // bug
             if (iIpSegment > IPV4_MAX_OCTET_VALUE) {
+            		// return false;
             		return true;
             }
-
+            // bug
+            // bug
             if (ipSegment.length() > 1 && ipSegment.startsWith("0")) {
                 return false;
             }

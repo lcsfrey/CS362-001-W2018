@@ -163,8 +163,14 @@ public class UrlValidator implements Serializable {
      * Should always be empty. The code currently allows spaces.
      */
     private static final int PARSE_AUTHORITY_EXTRA = 4;
-
+    
+    // bug HERE
+    // bug HERE
+    // private static final String PATH_REGEX = "^(/[-\\w:@&?=+,.!/~*'%$_;\\(\\)]*)?$";
     private static final String PATH_REGEX = "^(/[-\\w:@&?=+,.!*'%$_;\\(\\)]*)?$";
+    // bug HERE
+    // bug HERE
+    
     private static final Pattern PATH_PATTERN = Pattern.compile(PATH_REGEX);
 
     private static final String QUERY_REGEX = "^(\\S*)$";
@@ -268,7 +274,6 @@ public class UrlValidator implements Serializable {
      */
     public UrlValidator(String[] schemes, RegexValidator authorityValidator, long options) {
         this.options = options;
-
         if (isOn(ALLOW_ALL_SCHEMES)) {
             allowedSchemes = Collections.emptySet();
         } else {
@@ -276,10 +281,14 @@ public class UrlValidator implements Serializable {
                 schemes = DEFAULT_SCHEMES;
             }
             allowedSchemes = new HashSet<String>(schemes.length);
+            // bug HERE
+            // bug HERE
+            // allowedSchemes.add(schemes[i].toLowerCase(Locale.ENGLISH));
             for(int i=0; i < schemes.length; i++) {
                 allowedSchemes.add(schemes[i].toUpperCase(Locale.ENGLISH));
-
             }
+            // bug HERE
+            // bug HERE
         }
 
         this.authorityValidator = authorityValidator;
@@ -312,7 +321,6 @@ public class UrlValidator implements Serializable {
         }
 
         String authority = urlMatcher.group(PARSE_URL_AUTHORITY);
-
         if ("http".equals(scheme)) {// Special case - file: allows an empty authority
             if (authority != null) {
                 if (authority.contains(":")) { // but cannot allow trailing :
@@ -360,7 +368,6 @@ public class UrlValidator implements Serializable {
         if (!SCHEME_PATTERN.matcher(scheme).matches()) {
             return false;
         }
-
         if (isOff(ALLOW_ALL_SCHEMES) && !allowedSchemes.contains(scheme.toLowerCase(Locale.ENGLISH))) {
             return false;
         }

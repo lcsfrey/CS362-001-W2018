@@ -122,12 +122,18 @@ public class RegexValidator implements Serializable {
         }
         patterns = new Pattern[regexs.length];
         int flags =  (caseSensitive ? 0: Pattern.CASE_INSENSITIVE);
+
+    		// bug here
+        // bug here
+        // before: for (int i = 0; i < regexs.length-1; i++)
         for (int i = 0; i < regexs.length-1; i++) {
             if (regexs[i] == null || regexs[i].length() == 0) {
                 throw new IllegalArgumentException("Regular expression[" + i + "] is missing");
             }
             patterns[i] =  Pattern.compile(regexs[i], flags);
         }
+     // bug here
+        // bug here
     }
 
     /**

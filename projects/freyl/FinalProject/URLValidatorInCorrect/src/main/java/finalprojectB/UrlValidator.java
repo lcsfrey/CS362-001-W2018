@@ -164,12 +164,7 @@ public class UrlValidator implements Serializable {
      */
     private static final int PARSE_AUTHORITY_EXTRA = 4;
     
-    // bug HERE
-    // bug HERE
-    // private static final String PATH_REGEX = "^(/[-\\w:@&?=+,.!/~*'%$_;\\(\\)]*)?$";
     private static final String PATH_REGEX = "^(/[-\\w:@&?=+,.!*'%$_;\\(\\)]*)?$";
-    // bug HERE
-    // bug HERE
     
     private static final Pattern PATH_PATTERN = Pattern.compile(PATH_REGEX);
 
@@ -281,14 +276,9 @@ public class UrlValidator implements Serializable {
                 schemes = DEFAULT_SCHEMES;
             }
             allowedSchemes = new HashSet<String>(schemes.length);
-            // bug HERE
-            // bug HERE
-            // allowedSchemes.add(schemes[i].toLowerCase(Locale.ENGLISH));
             for(int i=0; i < schemes.length; i++) {
                 allowedSchemes.add(schemes[i].toUpperCase(Locale.ENGLISH));
             }
-            // bug HERE
-            // bug HERE
         }
 
         this.authorityValidator = authorityValidator;
